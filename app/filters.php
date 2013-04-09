@@ -33,16 +33,32 @@ App::after(function($request, $response)
 |
 */
 
-Route::filter('auth', function()
+// Entrust::routeNeedsRole( 'admin/*', 'Admin', Redirect::to('/') );
+// Entrust::routeNeedsRole( 'admin/*', 'Writer', Redirect::to('/') );
+
+Route::filter('role_admin_writer', function()
 {
-	if (Auth::guest()) return Redirect::route('login');
+	if (
+		! Entrust::hasRole('Admin') and 
+		! Entrust::hasRole('Writer')
+	)
+	{
+		return Redirect::to('/');
+	}
 });
 
+Route::when('admin/*', 'role_admin_writer');
 
-Route::filter('guest', function()
-{
-	if (Auth::check()) return Redirect::to('/');
-});
+// Route::filter('auth', function()
+// {
+// 	if (Auth::guest()) return Redirect::route('login');
+// });
+
+
+// Route::filter('guest', function()
+// {
+// 	if (Auth::check()) return Redirect::to('/');
+// });
 
 /*
 |--------------------------------------------------------------------------

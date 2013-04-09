@@ -1,52 +1,42 @@
 <?php
 
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableInterface;
+use Zizaco\Confide\ConfideUser;
+use Zizaco\Entrust\HasRole;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends ConfideUser {
+	use HasRole;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
 	protected $table = 'users';
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array('password');
+	protected $hidden = array('password', 'confirmation_code');
 
 	/**
-	 * Get the unique identifier for the user.
-	 *
-	 * @return mixed
+	 * Ardent validation rules
 	 */
-	public function getAuthIdentifier()
+	public static $rules = array(
+		'username'   => 'required|between:3,20',
+		'firstname'  => 'required',
+		'lastname'   => 'required',
+		'email'      => 'required|email',
+		'password'   => 'required|between:5,20|confirmed',
+	);
+
+	/**
+	 * Has many posts
+	 */
+	public function posts()
 	{
-		return $this->getKey();
+		return $this->hasMany( 'Post', 'author_id' );
 	}
 
 	/**
-	 * Get the password for the user.
+	 * Full Name
 	 *
 	 * @return string
 	 */
-	public function getAuthPassword()
+	public function fullName()
 	{
-		return $this->password;
-	}
-
-	/**
-	 * Get the e-mail address where password reminders are sent.
-	 *
-	 * @return string
-	 */
-	public function getReminderEmail()
-	{
-		return $this->email;
+		return $this->firstname . ' ' . $this->lastname;
 	}
 
 }
