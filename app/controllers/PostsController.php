@@ -14,7 +14,7 @@ class PostsController extends BaseController {
 		$posts = Post::with('author')
 			->where('display','=', '1')
 			->orderBy('id','desc')
-			->paginate(8);
+			->paginate(4);
 
 		$this->layout->content = View::make('posts.index')
 			->with( 'posts', $posts );

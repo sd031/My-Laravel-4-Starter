@@ -16,4 +16,6 @@
 			</div>
 		</a>
 	@endforeach
+
+	{{ $posts->links() }}
 @stop
