@@ -28,6 +28,17 @@ class UserTableSeeder extends Seeder {
 		$user->confirmed             = 1;
 		$user->save();
 
+		$user = new User;
+		$user->id                    = 3;
+		$user->username              = 'Member';
+		$user->firstname             = 'User';
+		$user->lastname              = 'Name';
+		$user->email                 = 'martindilling@gmail.com';
+		$user->password              = 'password';
+		$user->password_confirmation = 'password';
+		$user->confirmed             = 1;
+		$user->save();
+
 		// Uncomment the below to run the seeder
 		// DB::table('usertableseeder')->insert($usertableseeder);
 	}

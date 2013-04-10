@@ -67,7 +67,7 @@ class UserController extends BaseController {
 	{
 		if( Confide::user() )
 		{
-			return Redirect::action('Admin\PostsController@index');
+			return Redirect::action('Admin\DashboardController@index');
 		}
 		else
 		{

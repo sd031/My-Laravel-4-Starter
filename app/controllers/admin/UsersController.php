@@ -11,7 +11,7 @@ class UsersController extends AdminController {
 	 */
 	public function index()
 	{
-		$users = User::paginate(8);
+		$users = User::with('roles')->paginate(8);
 
 		$this->layout->content = \View::make('admin.users.index')
 			->with( 'users', $users );
@@ -24,7 +24,10 @@ class UsersController extends AdminController {
 	 */
 	public function create()
 	{
+		$roles = \Role::all();
+
 		$this->layout->content = \View::make('admin.users.create')
+			->with( 'roles', $roles )
 			->with( 'action', 'Admin\UsersController@store')
 			->with( 'method', 'POST');
 	}
@@ -50,6 +53,8 @@ class UsersController extends AdminController {
 		// Save if valid
 		if ( $user->save() )
 		{
+			$user->attachRole( Input::get( 'role' ) );
+
 			return Redirect::action('Admin\UsersController@index')
 				->with( 'flashsuccess', 'User is saved!' );
 		}
@@ -81,13 +86,15 @@ class UsersController extends AdminController {
 	 */
 	public function edit($id)
 	{
-		$user = User::find($id);
+		$user = User::with('roles')->find($id);
+		$roles = \Role::all();
 
 		if(! $user)
 			return Redirect::action('Admin\UsersController@index');
 
 		$this->layout->content = \View::make('admin.users.edit')
 			->with( 'user', $user )
+			->with( 'roles', $roles )
 			->with( 'action', 'Admin\UsersController@update')
 			->with( 'method', 'PUT');
 	}
@@ -99,7 +106,7 @@ class UsersController extends AdminController {
 	 */
 	public function update($id)
 	{
-		$user = Users::find( $id );
+		$user = User::find( $id );
 
 		$user->username = Input::get( 'username' );
 		$user->firstname = Input::get( 'firstname' );
@@ -110,6 +117,9 @@ class UsersController extends AdminController {
 		// Save if valid
 		if ( $user->save() )
 		{
+			$user->detachRole($user->roles->first());
+			$user->attachRole( Input::get( 'role' ) );
+
 			return Redirect::action('Admin\UsersController@index')
 				->with( 'flashsuccess', 'User updated' );
 		}

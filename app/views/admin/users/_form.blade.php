@@ -42,6 +42,14 @@
 			{{ Form::password('password_confirmation', array_get( $f,'password_confirmation') ) }}
 		@endif
 
+		{{ Form::label('role', 'Role') }}
+		<?php
+			foreach ($roles as $role) {
+				$roleoptions[$role->id] = $role->name;
+			}
+		?>
+		{{ Form::select('role', $roleoptions, $user->roles->first()->id); }}
+
 		<label class="checkbox">
 			{{ Form::checkbox('confirmed', 1, array_get( $f,'confirmed') ) }}
 			Confirmed

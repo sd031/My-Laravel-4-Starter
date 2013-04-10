@@ -56,18 +56,24 @@ Route::filter('auth.basic', function()
 // Entrust::routeNeedsRole( 'admin/*', 'Admin', Redirect::to('/') );
 // Entrust::routeNeedsRole( 'admin/*', 'Writer', Redirect::to('/') );
 
-Route::filter('role_admin_writer', function()
+$permissionerror = "You don't have the right permissions to access this page!";
+
+Route::filter('role_admin_writer_member', function()
 {
 	if (
 		! Entrust::hasRole('Admin') and 
-		! Entrust::hasRole('Writer')
+		! Entrust::hasRole('Writer') and
+		! Entrust::hasRole('Member')
 	)
 	{
-		return Redirect::to('/');
+		return Redirect::to('/')
+			->with( 'flasherror', $permissionerror );
 	}
 });
+Route::when('admin/*', 'role_admin_writer_member');
 
-Route::when('admin/*', 'role_admin_writer');
+Entrust::routeNeedsPermission( 'admin/post*', 'manage_posts', Redirect::to('admin') );
+Entrust::routeNeedsPermission( 'admin/user*', 'manage_users', Redirect::to('admin') );
 
 /*
 |--------------------------------------------------------------------------

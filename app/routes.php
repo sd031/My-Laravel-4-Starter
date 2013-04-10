@@ -20,6 +20,9 @@ Route::get(    'posts',                    'PostsController@index' );
 Route::get(    'post',                     'PostsController@index' );
 Route::get(    'post/{slug}',              'PostsController@show' );
 
+// Admin/Dashboard
+Route::get(    'admin/dashboard',          'Admin\DashboardController@index' );
+
 // Admin/Posts
 Route::get(    'admin/posts',              'Admin\PostsController@index' );
 Route::get(    'admin/post',               'Admin\PostsController@index' );
@@ -32,13 +35,13 @@ Route::delete( 'admin/post/{id}',          'Admin\PostsController@destroy' );
 
 // Admin/Users
 Route::get(    'admin/users',              'Admin\UsersController@index' );
-Route::get(    'admin/users',              'Admin\UsersController@index' );
-Route::get(    'admin/users/create',       'Admin\UsersController@create' );
-Route::post(   'admin/users',              'Admin\UsersController@store' );
-Route::get(    'admin/users/{id}',         'Admin\UsersController@show' );
-Route::get(    'admin/users/{id}/edit',    'Admin\UsersController@edit' );
-Route::put(    'admin/users/{id}',         'Admin\UsersController@update' );
-Route::delete( 'admin/users/{id}',         'Admin\UsersController@destroy' );
+Route::get(    'admin/user',              'Admin\UsersController@index' );
+Route::get(    'admin/user/create',       'Admin\UsersController@create' );
+Route::post(   'admin/user',              'Admin\UsersController@store' );
+Route::get(    'admin/user/{id}',         'Admin\UsersController@show' );
+Route::get(    'admin/user/{id}/edit',    'Admin\UsersController@edit' );
+Route::put(    'admin/user/{id}',         'Admin\UsersController@update' );
+Route::delete( 'admin/user/{id}',         'Admin\UsersController@destroy' );
 
 
 // Confide routes

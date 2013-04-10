@@ -4,6 +4,8 @@
 			@foreach(Session::get('flasherror') as $error)
 				{{ $error }}<br />
 			@endforeach
+		@else
+			{{ Session::get('flasherror') }}
 		@endif
 	</div>
 @endif
