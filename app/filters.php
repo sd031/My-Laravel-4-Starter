@@ -56,10 +56,10 @@ Route::filter('auth.basic', function()
 // Entrust::routeNeedsRole( 'admin/*', 'Admin', Redirect::to('/') );
 // Entrust::routeNeedsRole( 'admin/*', 'Writer', Redirect::to('/') );
 
-$permissionerror = "You don't have the right permissions to access this page!";
 
 Route::filter('role_admin_writer_member', function()
 {
+	$permissionerror = "You don't have the right permissions to access this page!";
 	if (
 		! Entrust::hasRole('Admin') and 
 		! Entrust::hasRole('Writer') and
